@@ -288,7 +288,21 @@
     # 5. 确认当前集群中所有Pod的状态为 RUNNING, 
     kubectl get pods --all-namespaces
     ```
-6. `Slave` 节点加入集群
+6. `kubectl` 自动完成和别名 [官方文档](https://kubernetes.io/zh/docs/tasks/tools/included/optional-kubectl-configs-bash-linux/)
+    ```bash
+    # 安装补全脚本工具
+    yum install bash-completion
+    # 重载补全
+    bash
+    # 验证补全脚本工具是否生效
+    type _init_completion
+    # 将补全脚本添加到目录
+    kubectl completion bash >/etc/bash_completion.d/kubectl
+    # 配置别名并扩展 shell 补全适配此别名
+    echo 'alias k=kubectl' >>~/.bashrc
+    echo 'complete -F __start_kubectl k' >>~/.bashrc
+    ```
+7. `Slave` 节点加入集群
     - 上述步骤结束后,单点的集群就已搭建好了,现在登录准备好的另一台虚拟机(如果使用 Hyper-V 管理器的 导出 -> 导入 复制 `Master` 虚拟机, 需按 `步骤四-1` 检查更改并用 `kubeadm reset` 重置K8S)
     - 设置 HostName : `sudo hostnamectl set-hostname slave-node`
     - 加入集群: 执行 `五-3` 生成的 `kubeadm join` 命令
